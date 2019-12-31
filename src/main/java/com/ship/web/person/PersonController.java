@@ -69,7 +69,7 @@ public class PersonController extends Proxy{
 		return person == null;
 	}
 	@PostMapping("/login")
-	public HashMap<String,Object> login(@RequestBody Person param) {
+	public Map<String,Object> login(@RequestBody Person param) {
 		HashMap<String,Object> map = new HashMap<>();
 		printer.accept("로그인 진입 !!");
 		printer.accept(String.format("ID : %s", param.getUserid()+""));
@@ -107,12 +107,11 @@ public class PersonController extends Proxy{
 				break;
 			default:break;
 		}
-		List<PersonDTO> list = new ArrayList<>();
+		List<Person> list = new ArrayList<>();
 		for(Person p : entites) {
-			PersonDTO dto = modelMapper.map(p,PersonDTO.class);
+			Person dto = modelMapper.map(p,Person.class);
 			list.add(dto);
 		}
-
 		trunk.put(Arrays.asList("msg","list"),
 				Arrays.asList("Success",list.stream()
 						.filter(i -> i.getRole().equals(role))));

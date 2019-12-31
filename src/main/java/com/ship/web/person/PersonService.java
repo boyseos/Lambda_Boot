@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ public class PersonService {
     // 자바의 정석 847 collect()
     public List<String> namesOfStudents() {
        // 1. 학생의 이름
+    	List<?> dd = new ArrayList<>();
        return  personRepository.findByRole("student").stream()
                .map(Person::getName)
                .collect(Collectors.toList());
@@ -58,7 +60,7 @@ public class PersonService {
     
     
     // 자바의정석 851 partioningBy()
-    public List<Person>  partioningByGender(boolean gender) {
+    public List<Person> partioningByGender(boolean gender) {
        // 1.단순분할 (성별로 분할) 남성 true  여성 false
        return  personRepository.findByRole("student").stream()
                .collect(
@@ -66,7 +68,7 @@ public class PersonService {
                           .partitioningBy(Person::isMale))
                .get(gender);
     }
-    public Long  partioningCountPerGender(boolean gender) {
+    public Long partioningCountPerGender(boolean gender) {
        // 2.단순분할 (성별 학생수)
        return  personRepository.findByRole("student").stream()
                .collect(
@@ -75,7 +77,7 @@ public class PersonService {
                               Collectors.counting()))
                .get(gender);
     }
-    public Person  partioningTopPerGender(boolean gender) {
+    public Person partioningTopPerGender(boolean gender) {
        // 3.단순분할 (성별 1등) 남성 true  여성 false
        return  personRepository.findByRole("student").stream()
                .collect(Collectors.partitioningBy(
@@ -87,7 +89,7 @@ public class PersonService {
                                              Optional::get)))
                .get(gender);
     }
-    public List<Person>  partioningRejectPerGender(boolean gender) {
+    public List<Person> partioningRejectPerGender(boolean gender) {
        // 4.다중분할 (성별 불합격자,  50점이하) 남성 true 여성 false
        return  personRepository.findByRole("student").stream()
                .collect(Collectors.partitioningBy(Person::isMale,
@@ -96,13 +98,13 @@ public class PersonService {
                .get(true);
     }
     // 자바의정석 855
-    public Map<Integer, List<Person>>  findByHak() {
+    public Map<Integer, List<Person>> findByHak() {
        //1. 단순 그룹화(반별로 그룹화)
         return personRepository
                .findByRole("student").stream()
                .collect(Collectors.groupingBy(Person::getBan));
     }
-    public Map<Person.Level, List<Person>>  groupByGrade() {
+    public Map<Person.Level, List<Person>> groupByGrade() {
        //2. 단순그룹화(성적별로 그룹화)
        return  personRepository.findByRole("student").stream()
                .collect(Collectors.groupingBy(
@@ -113,7 +115,7 @@ public class PersonService {
                       ));
        
     }
-    public Map<Person.Level, Long>  personCountByLevel() {
+    public Map<Person.Level, Long> personCountByLevel() {
        //3. 단순그룹화 + 통계(성적별 학생수))
        return  personRepository.findByRole("student").stream()
                .collect(Collectors.groupingBy(s->{
@@ -125,7 +127,7 @@ public class PersonService {
                
                
     }
-    public Map<Integer, Map<Integer,  List<Person>>> multiGrouping() {
+    public Map<Integer, Map<Integer, List<Person>>> multiGrouping() {
        // 4. 다중 그룹화 (학년별, 반별)
        return  personRepository.findByRole("student").stream()
                .collect(
@@ -133,7 +135,7 @@ public class PersonService {
                           Collectors.groupingBy(Person::getBan)
                ));
     }
-    public Map<Integer, Map<Integer,  Object>> multiGroupingMax() {
+    public Map<Integer, Map<Integer, Object>> multiGroupingMax() {
        // 5. 다중 그룹화 +통계 (학년별, 반별  1등)
        return  personRepository.findByRole("student").stream()
                .collect(Collectors.groupingBy(Person::getHak,
@@ -143,7 +145,7 @@ public class PersonService {
                                      .comparingInt(Person::getScore)),
                               Optional::get))));
     }
-    public Map<Object, Set<Object>>  multiGroupingGrade() {
+    public Map<Object, Set<Object>> multiGroupingGrade() {
        // 6. 다중그룹화 + 통계(학년별, 반별  성적그룹)
        return  personRepository.findByRole("student").stream()
                .collect(Collectors.groupingBy(s->  s.getHak()+"-"+ s.getBan(),

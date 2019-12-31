@@ -67,7 +67,6 @@
 </div>
 </template>
 <script>
-import axios from 'axios'
 export default{
 	data(){
 		return {
@@ -79,18 +78,6 @@ export default{
 		}
   },
   methods:{
-    join(){
-      axios.post('http://localhost:8080/join',
-      {userid:this.userid,passwd:this.passwd,name:this.name},
-      {'authorization': 'JWT fefege..',
-              'Accept' : 'application/json',
-              'Content-Type': 'application/json'
-          }).then(()=>{
-            alert('성공')
-          }).catch(()=>{
-            alert('실패')
-          })
-    }
   }
 }
 </script>

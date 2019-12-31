@@ -29,7 +29,6 @@
 </div>
 </template>
 <script>
-import {store} from '@/store'
 import LayOut from '@/components/cmm/LayOut.vue'
 import PreSideBar from '@/components/cmm/PreSideBar.vue'
 import StudentSideBar from '@/components/cmm/StudentSideBar.vue'
@@ -38,7 +37,7 @@ export default({
 	components : {LayOut,PreSideBar,StudentSideBar,ManagerSideBar},
 	data(){
 		return {
-			loging: store.state.user.userid,
+			loging: this.loginState,
       navcommands:[
         {name: '로그인', path: '/login'},
         {name: '회원가입', path: '/join'}
@@ -47,7 +46,7 @@ export default({
 	},
 	computed:{
 		loginState: function(){
-			return store.state.user.userid == undefined
+			return this.$store.state.userid == undefined
 		}
 	},
 	methods : {
@@ -55,18 +54,18 @@ export default({
 			alert(this.loging)
 		},
 		logout(){
-			store.state.user = {}
+			this.$store.state.user = {}
 			this.$router.push({path: '/login'})
 		},
 		auth(){
-			switch (store.state.user.hak) {
+			switch (this.$store.state.hak) {
 				case undefined: return "PreSideBar"
 				case 4: return "ManagerSideBar"
 				default: return "StudentSideBar"
 			} 
 		},
 		switchSideBar(){
-			switch (store.state.user.hak) {
+			switch (this.$store.state.hak) {
 				case undefined: return undefined
 				case 4: return [
 					{name: '학생목록', path : '/memberlist'},

@@ -14,7 +14,7 @@
 	<a @click.prevent="lambdapractice('topStudent')">6. 1등 학생</a><br />
 	<a @click.prevent="lambdapractice('getStat')">7. 전체 학생 성적 통계</a><br />
 	<a @click.prevent="lambdapractice('nameList')">8. 전체 학생 이름</a><br />
-	<a @click.prevent="lambdapractice('partioningBy')">1.단순분할 (성별로 분할)</a><br />
+	<a @click.prevent="lambdapractice('partioningByGender')">1.단순분할 (성별로 분할)</a><br />
 	<a @click.prevent="lambdapractice('partioningCountPerGender')">2.단순분할 (성별 학생수)</a><br />
 	<a @click.prevent="lambdapractice('partioningTopPerGender')">3.단순분할 (성별 1등)</a><br />
 	<a @click.prevent="lambdapractice('partioningRejectPerGender')">4.다중분할 (성별 불합격자,  50점이하)</a><br />
@@ -34,6 +34,9 @@
 			</div>
 		</div>
 	</div>
+	<div style="display: flow-root;">
+		<v-btn @click="pagechange(index)" v-for="(item,index) of pagenation" :key="index">{{item}}</v-btn>
+	</div>
   </div>
 </template>
 
@@ -47,7 +50,8 @@ export default {
 			list : {},
 			sorted : {},
 			role : '',
-			searchword : ''
+			searchword : '',
+			pagenation: ['이전',1,2,3,4,5,'다음']
 		}
 	},
 	methods : {
@@ -91,6 +95,9 @@ export default {
 			}).catch(()=>{
 				alert(`${searchword}`)
 			})
+		},
+		pagechange(index){
+			alert(index)
 		}
 	}
 }

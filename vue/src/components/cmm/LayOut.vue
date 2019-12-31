@@ -16,20 +16,20 @@
 </div>
 </template>
 <script>
-import {store} from '@/store'
 export default({
 	data(){
 		return {
 			content : '으음.',
                footer : '흐음.',
                sidebar : null
+               
 		}
      },
      computed:{
           authcheck(){
-               switch(store.state.user.role){
-                    case 'student': return `${store.state.user.name} 학생`
-                    case 'teacher': return `${store.state.user.name} 슨상님`
+               switch(this.$store.state.role){
+                    case 'student': return `${this.$store.state.user.name} 학생`
+                    case 'teacher': return `${this.$store.state.user.name} 슨상님`
                     default: return '게스트'
                }
           }

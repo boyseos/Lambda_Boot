@@ -27,37 +27,22 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {store} from '@/store'
+import { mapMutations } from 'vuex'
+//import {store} from '@/store'
 export default {
   data(){
     return {
       userid : '',
       passwd : '',
-      result : []
+      result : [],
     }
   },
   methods : {
-    login(){
-      alert(this.userid + this.passwd)
-      axios.post('http://localhost:8080/login',
-                  {userid:this.userid,passwd:this.passwd},
-                  {'authorization': 'JWT fefege..',
-              'Accept' : 'application/json',
-              'Content-Type': 'application/json'
-          }).then(res=>{
-            if(res.data.msg ==="Success"){
-               store.state.user = res.data.person
-               alert(`스토어에 저장성공  ${store.state.user.userid}`)
-               this.$router.push({path: (res.data.person.role == 'teacher') ? '/memberlist' : '/mypage'})
-            }else{
-              alert('로그인 실패')
-              this.$router.push({path:'/login'})
-            }
-      })
-      .catch(()=>{
-        alert('AXIOS 실패')
-      })
+    ...mapMutations({
+      LOGIN: 'LOGIN'
+    }),
+    login(userid,passwd){
+      this.$store.dispatch('person/login', (userid,passwd))
     }
   }
 }
